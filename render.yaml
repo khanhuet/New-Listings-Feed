@@ -1,0 +1,26 @@
+services:
+  - type: worker
+    name: listing-alert-bot
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: listing-alert-db
+          property: connectionString
+      - key: POLL_SECONDS
+        value: "30"
+      - key: DISPLAY_TIMEZONE
+        value: "Asia/Ho_Chi_Minh"
+      - key: LOG_LEVEL
+        value: "INFO"
+
+databases:
+  - name: listing-alert-db
+    plan: basic-256mb
